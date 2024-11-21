@@ -11,6 +11,9 @@ LABEL maintainer="Aly Sivji <alysivji@gmail.com>" \
 # Set the working directory to /app
 WORKDIR /app
 
+# Copy the current directory contents into the container at /app
+COPY . /app
+
 # Install the required libraries
 RUN conda install jupyter -y && \
     conda install pandas -y && \
@@ -23,8 +26,9 @@ EXPOSE 8888
 VOLUME /app
 
 # Run jupyter when container launches
-CMD ["jupyter", "notebook", "--ip='*'", "--port=8888", "--no-browser", "--allow-root"]
+CMD ["jupyter", "notebook", "--ip='0.0.0.0'", "--port=8888", "--no-browser", "--allow-root"]
 
 # Build the contaner: docker build -t test-mount .
 # Run the container (**Be sure to replace <absolute-path-to-the-directory-with-the-lab> with your own path! Which port are you using on the host?**): docker run -p 9999:8888 -v  /<absolute-path-to-the-directory-with-the-lab>:/app test-mount
 # Example: docker run -p 9999:8888 -v /home//teaching_material/mlops/modules/11.docker-containers/lab-resources/example2-data-science-project/test_docker_vol:/app test-mount
+#Example: docker run -p 8888:8888 example2-data-science-project
